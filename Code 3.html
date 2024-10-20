@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>R code</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="unit7.html">Back</a></li>
+						
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">R code</h1>
+
+							<!-- Text -->
+								<section>
+								
+									<h2>R activities</h2>
+
+									<h3>Hierarchical clustering</h3>
+									<p>A distance matrix is created using the Euclidean distance method, followed by hierarchical clustering using the "complete" linkage method. Finally, a dendrogram is plotted.</p>
+									<pre><code>
+numerical_data <- numerical_data %>% select_if(is.numeric)
+distance_matrix <- dist(scale(numerical_data), method = "euclidean")
+hc <- hclust(distance_matrix, method = "complete")
+plot(hc, main = "Dendrogram for Hierarchical Clustering", xlab = "", sub = "", cex = 0.6)
+</code></pre>
+									<h3>Silhouette Method</h3>
+									<p>This code performs the "elbow method" for determining the optimal number of clusters for k-means clustering.</p>
+									<pre><code>
+wss <- (nrow(numerical_data) - 1) * sum(apply(numerical_data, 2, var))
+wss <- sapply(1:10, function(k){
+kmeans(numerical_data, centers = k)$tot.withinss
+})
+										
+plot(1:10, wss, type="b", pch = 19, frame = FALSE, 
+xlab="Number of clusters K", 
+ylab="Total within-clusters sum of squares", main = "Silhouette Method")
+
+</code></pre>
+<h3>4 clusters</h3>
+<p>The code assigns observations to 4 clusters using hierarchical clustering, adds these cluster labels to the data, and counts the number of observations per cluster. 
+	It then calculates the mean of all variables for each cluster, summarising the characteristics and differences between the clusters.</p>
+									<pre><code>
+clusters <- cutree(hc, k = 4)
+numerical_data$cluster <- as.factor(clusters)
+table(numerical_data$cluster)
+
+summary_by_cluster <-  numerical_data %>%
+  group_by(cluster) %>%
+  summarise_all(mean, na.rm = TRUE)
+summary_by_cluster
+
+</code></pre>
+								</section>
+
+				
+									
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

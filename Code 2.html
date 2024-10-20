@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>R code</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="unit5.html">Back</a></li>
+						
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">R code</h1>
+
+							<!-- Text -->
+								<section>
+								
+									<h2>R activities</h2>
+
+									<h3>Plotbox</h3>
+									<p>This plotbox visualises the median, quartiles, and outliers, helping identify extreme age values. The plot includes a title, axis label, and minimal theme for a clean, centered, and bold presentation</p>
+									<pre><code>
+ggplot(marketing_data, mapping = aes( age)) + geom_boxplot() 
++ labs(title = "Boxplot of Age Distribution", x = "Age")+ theme_minimal() 
++ theme( plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),)  
+
+</code></pre>
+									<h3>Correlation Code</h3>
+									<p>he cor() function calculates the correlation matrix for all numerical variables, excluding any missing values (use = "complete.obs").</p>
+									<pre><code>
+library(corrplot)
+numerical_data <- select(marketing_data, where(is.numeric))
+numerical_data$output_num <- ifelse(marketing_data$y == "yes", 1,0)
+corr_matrix <- cor(numerical_data, use = "complete.obs") 
+corrplot(corr_matrix) 
+
+</code></pre>
+<h3>Bar chart</h3>
+<p>The duration_category column is then converted to a factor with a specific order: "short," "medium," "long," and "very_long," 
+	ensuring consistent ordering in visualisations. A bar plot is created using ggplot2 to show the distribution of different duration categories</p>
+									<pre><code>
+cleaned_data <- cleaned_data %>%
+  mutate(duration_category = ifelse(duration <= 120, "short", 
+                             ifelse(duration > 120 & duration <= 240, "medium",
+                             ifelse(duration > 240 & duration <= 600, "long", "very_long"))))
+
+cleaned_data <- cleaned_data %>%
+  mutate(duration_category = factor(duration_category, levels = c("short", "medium", "long", "very_long")))
+
+ggplot(data = cleaned_data, aes(x = duration_category, fill = y)) + geom_bar(position = "dodge") +  labs(title = "Duration Distribution by Output",x = "Duration Category",) +  
+  facet_wrap(~ y) + theme_minimal() + theme(plot.title = element_text(hjust = 0.5, size = 16, face ="bold"),)
+```
+```{r}
+
+durat <- cleaned_data %>% group_by(duration_category) %>% summarise(total = n(),
+         y_count = sum(y == 'yes'),  y_percent = (y_count/total))
+durat <- durat[order(durat$y_percent, decreasing = TRUE), ]
+head(durat, n = 10)
+
+</code></pre>
+								</section>
+
+				
+									
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

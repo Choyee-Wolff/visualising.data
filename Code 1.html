@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>R code</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="unit3.html">Back</a></li>
+						
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">R code</h1>
+
+							<!-- Text -->
+								<section>
+								
+									<h3>R activities</h3>
+									<p>I have imported data using read.csv to load marketing_data. Functions like nrow() and ncol() are used to get the number of rows and columns in the dataset.Glimpse() provides a quick overview of the data, showing the structure, types, and first few entries of each column. It is useful for quickly understanding the data's composition and spotting any anomalies.</p> 
+								    <p> Summary() provides a statistical summary of the numerical data, including metrics like the mean, median, minimum, maximum, and quartiles. This helps identify patterns, trends, or outliers in the data. </p>
+									<p>The code checks for missing values using is.na().The which() function finds the positions of missing values, while sum(is.na()) calculates the total number of missing values. This is crucial for data cleaning and ensuring the dataset is suitable for analysis.</p>
+									<p> The table(duplicated()) function checks if there are any duplicate rows in the dataset. Identifying and handling duplicates is important for maintaining data quality and ensuring accurate analysis.</p>
+									<h3>Code</h3>
+									<pre><code>marketing_data <- read.csv("C:/Users/kylew/OneDrive/Desktop/uni/MMA marketing_data_sample.csv")
+
+nrow(marketing_data)
+ncol(marketing_data)
+glimpse(marketing_data)
+numerical_data <- select(marketing_data, where(is.numeric))
+summary(numerical_data)
+
+### Handing missing data
+
+which(is.na(marketing_data))
+sum(is.na(marketing_data))
+
+table(duplicated(marketing_data))
+
+</code></pre>
+								</section>
+
+				
+									
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

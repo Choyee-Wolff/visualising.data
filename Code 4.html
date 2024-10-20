@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>R code</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Home</a>
+				<nav>
+					<ul>
+						<li><a href="unit6.html">Back</a></li>
+						
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">R code</h1>
+
+							<!-- Text -->
+								<section>
+								
+									<h2>R activities</h2>
+
+									<h3>Linear Regression</h3>
+									<p>The model to predict y_num using the all variable. Predictions are converted to a binary class ("yes" or "no") based on a threshold of 0.1. An ROC curve is then plotted to evaluate the model's classification performance, showing the AUC value.</p>
+									<pre><code>
+linear_model_all <- lm(y_num ~ ., data = output_trn_lm)
+
+#convert to binary class
+linear_pred_class_all <- ifelse(linear_pred_all > 0.1, "yes", "no")
+linear_pred_class_all <- factor(linear_pred_class_all, levels = levels(output_tst_lm$y))
+
+roc_linear <- roc(output_tst$y ~ linear_pred_all, plot = TRUE, print.auc = TRUE)
+plot(roc_linear, col = "blue", main = "ROC Curve for Linear Regression")
+</code></pre>
+									<h3>Logistic regression</h3>
+									<p>The model to predict y using all variable from cleaned_data. Predictions on the test data are converted to binary classes ("yes" or "no") using a threshold of -2.45. A confusion matrix evaluates the model's classification performance.</p>
+									<pre><code>
+logistic_model_all <- glm(y ~ ., data = cleaned_data, family = binomial)
+# Predict on test data
+logistic_pred_all <- predict(logistic_model_all, output_tst)
+
+#convert to binary class
+logistic_pred_class_all <- ifelse(logistic_pred_all > -2.45, "yes", "no")
+logistic_pred_class_all <- factor(logistic_pred_class_all, levels = levels(output_tst$y))
+
+# Confusion Matrix
+logistic_cm_all <- confusionMatrix(logistic_pred_class_all, as.factor(output_tst$y), positive = "yes")
+</code></pre>
+<h3>Classification tree</h3>
+<p>An unpruned classification tree model to predict y using all variables in the cleaned_data. It sets a minimum node size of 10. The tree is then plotted with labels for better interpretation, displaying the structure and splits of the decision tree.</p>
+
+									<pre><code>
+tree_model = tree(y ~ ., data = cleaned_data, control = tree.control(nobs = nrow(cleaned_data), minsize = 10)) summary(tree_model)
+
+plot(tree_model)
+text(tree_model, pretty = 0)
+title(main = "Unpruned Classification Tree")
+</code></pre>
+								</section>
+
+				
+									
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
